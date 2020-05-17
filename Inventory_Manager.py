@@ -20,15 +20,15 @@ class Main(QMainWindow, FORM_CLASS):
         super(Main, self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
-        self.Handle_Buttons(self)
+        self.Handle_Buttons()
 
 
-    def Handle_Button(self):
+    def Handle_Buttons(self):
         pass
 
     
 def main():
-    app = QApplication(sys.args)
+    app = QApplication(sys.argv)
     window = Main()
     window.show()
     app.exec_()
