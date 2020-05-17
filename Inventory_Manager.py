@@ -23,12 +23,14 @@ class Main(QMainWindow, FORM_CLASS):
         self.setFixedSize(self.size())
         self.setupUi(self)
         self.Handle_Buttons()
+        self.navigate()
 
 
     def Handle_Buttons(self):
         self.refresh_btn.clicked.connect(self.getData)
         self.search_btn.clicked.connect(self.search)
         self.check_btn.clicked.connect(self.level)
+        
 
     def getData(self):
         # Connect to SQLite and fill GUI table with data
@@ -112,6 +114,26 @@ class Main(QMainWindow, FORM_CLASS):
             for column_number, data in enumerate(row_data):
                 self.table2.setItem(row_number, column_number, QTableWidgetItem(str(data)))
 
+    
+    def navigate(self):
+        db = sqlite3.connect('parts.db')
+        cursor = db.cursor()
+
+        query = ''' SELECT * FROM  parts_table '''
+
+        result = cursor.execute(query,)
+
+        val = result.fetchone()
+
+        self.id.setText(str(val[0]))
+        self.reference.setText(str(val[1]))
+        self.part_name.setText(str(val[2]))
+        self.min_area.setText(str(val[3]))
+        self.max_area.setText(str(val[4]))
+        self.number_of_holes.setText(str(val[5]))
+        self.min_diameter.setText(str(val[6]))
+        self.max_diameter.setText(str(val[7]))
+        self.count.setValue(val[8])
 
 
         
