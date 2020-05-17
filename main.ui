@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../icons/icon.png</normaloff>../../../../../../icons/icon.png</iconset>
+    <normaloff>icons/icon.png</normaloff>icons/icon.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -264,7 +264,7 @@ color: rgb(243, 150, 255);</string>
        <rect>
         <x>1070</x>
         <y>40</y>
-        <width>81</width>
+        <width>121</width>
         <height>51</height>
        </rect>
       </property>
@@ -281,7 +281,7 @@ color: rgb(243, 150, 255);</string>
        <rect>
         <x>1070</x>
         <y>160</y>
-        <width>81</width>
+        <width>121</width>
         <height>51</height>
        </rect>
       </property>
@@ -325,9 +325,9 @@ color: rgb(243, 150, 255);</string>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>230</y>
+        <y>215</y>
         <width>691</width>
-        <height>16</height>
+        <height>41</height>
        </rect>
       </property>
       <property name="text">
@@ -760,6 +760,25 @@ background-color: rgb(147, 147, 147);</string>
     </property>
     <property name="text">
      <string>Refresh</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="image">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>10</y>
+      <width>141</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>icons/icon-spare-parts.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

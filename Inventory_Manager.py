@@ -6,12 +6,17 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 
-import sys
+import sys, os
 from os import path
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 from PyQt5.uic import loadUiType
 
-FORM_CLASS,_ = loadUiType(path.join(path.dirname('__file__'), 'main.ui'))
+FORM_CLASS,_ = loadUiType(resource_path("main.ui"))
 
 import sqlite3
 
@@ -30,6 +35,9 @@ class Main(QMainWindow, FORM_CLASS):
         self.refresh_btn.clicked.connect(self.getData)
         self.search_btn.clicked.connect(self.search)
         self.check_btn.clicked.connect(self.level)
+        self.update_btn.clicked.connect(self.update)
+        self.delete_btn.clicked.connect(self.delete)
+        self.add_btn.clicked.connect(self.add)
         
 
     def getData(self):
@@ -135,8 +143,66 @@ class Main(QMainWindow, FORM_CLASS):
         self.max_diameter.setText(str(val[7]))
         self.count.setValue(val[8])
 
+    def update(self):
+        db = sqlite3.connect('parts.db')
+        cursor = db.cursor()
 
-        
+        id_ = int(self.id.text())
+        reference_ = self.reference.text()
+        part_name_ = self.part_name.text()
+        min_area_ = self.min_area.text()
+        max_area_ = self.max_area.text()
+        number_of_holes_ = self.number_of_holes.text()
+        min_diameter_ = self.min_diameter.text()
+        max_diameter_ = self.max_diameter.text()
+        count_ = str(self.count.value())
+
+        row = (reference_,part_name_,min_area_,max_area_,number_of_holes_,min_diameter_,max_diameter_,count_, id_)
+
+        query = ''' UPDATE parts_table SET 
+                Reference = ?, PartName = ?, MinArea = ?, MaxArea = ?, NumberOfHoles = ?, 
+                MinDiameter = ?, MaxDiameter = ?, Count = ? 
+                WHERE ID = ?
+        '''
+
+        cursor = cursor.execute(query, row)
+        db.commit()
+
+    
+    def delete(self):
+        db = sqlite3.connect('parts.db')
+        cursor = db.cursor()
+
+        d = self.id.text()
+
+        query = ''' DELETE FROM parts_table WHERE ID = ? '''
+
+        cursor.execute(query, d)
+        db.commit()
+
+    def add(self):
+        db = sqlite3.connect('parts.db')
+        cursor = db.cursor()
+
+        reference_ = self.reference.text()
+        part_name_ = self.part_name.text()
+        min_area_ = self.min_area.text()
+        max_area_ = self.max_area.text()
+        number_of_holes_ = self.number_of_holes.text()
+        min_diameter_ = self.min_diameter.text()
+        max_diameter_ = self.max_diameter.text()
+        count_ = str(self.count.value())
+
+        row = (reference_,part_name_,min_area_,max_area_,number_of_holes_,min_diameter_,max_diameter_,count_)
+
+        query = ''' INSERT INTO parts_table (Reference, PartName, MinArea, MaxArea, NumberOfHoles, MinDiameter, MaxDiameter, Count) 
+            VALUES (?,?,?,?,?,?,?,?)
+        '''
+
+        cursor = cursor.execute(query, row)
+        db.commit()
+
+
 
     
 def main():
