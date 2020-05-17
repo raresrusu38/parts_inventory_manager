@@ -31,7 +31,7 @@
      <string notr="true">font: 16pt &quot;Century Gothic&quot;;</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -188,7 +188,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Max. Number of Holes</string>
+       <string>Min. Number of Holes</string>
       </property>
      </widget>
      <widget class="QLabel" name="lbl_ref_nbr">
@@ -259,7 +259,7 @@ color: rgb(243, 150, 255);</string>
        <string>0</string>
       </property>
      </widget>
-     <widget class="QLabel" name="lbl_min_hole_1">
+     <widget class="QLabel" name="lbl_min_hole_4">
       <property name="geometry">
        <rect>
         <x>1070</x>

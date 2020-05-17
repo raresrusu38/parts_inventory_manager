@@ -46,10 +46,36 @@ class Main(QMainWindow, FORM_CLASS):
                 self.table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
 
         # Display references number and type number in Statistics tab
+        cursor2 = db.cursor()
+        cursor3 = db.cursor()
 
+        parts_nbr = ''' SELECT COUNT (DISTINCT PartName) FROM parts_table '''
+        ref_nbr = ''' SELECT COUNT (DISTINCT Reference) FROM parts_table '''
 
+        result_parts_nbr = cursor2.execute(parts_nbr)
+        result_ref_nbr = cursor3.execute(ref_nbr,)
+
+        self.lbl_parts_nbr.setText(str(result_parts_nbr.fetchone()[0]))
+        self.lbl_ref_nbr.setText(str(result_ref_nbr.fetchone()[0]))
 
         # Display 4 results: Min, Max, Nbr of Holes in addition to their respective references number
+        cursor4 = db.cursor()
+        cursor5 = db.cursor()
+
+        min_hole = ''' SELECT MIN(NumberOfHoles), Reference FROM parts_table '''
+        max_hole = ''' SELECT MAX(NumberOfHoles), Reference FROM parts_table '''
+
+        result_min_hole = cursor4.execute(min_hole)
+        result_max_hole = cursor5.execute(max_hole)
+
+        r1 = result_min_hole.fetchone()
+        r2 = result_max_hole.fetchone()
+
+        self.lbl_min_hole.setText(str(r1[0]))
+        self.lbl_max_hole.setText(str(r2[0]))
+
+        self.lbl_min_hole_4.setText(str(r1[1]))
+        self.lbl_max_hole_2.setText(str(r2[1]))
 
     def search(self):
         # Connect to SQLite and fill GUI table with data
