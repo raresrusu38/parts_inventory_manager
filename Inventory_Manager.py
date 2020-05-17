@@ -28,6 +28,7 @@ class Main(QMainWindow, FORM_CLASS):
     def Handle_Buttons(self):
         self.refresh_btn.clicked.connect(self.getData)
         self.search_btn.clicked.connect(self.search)
+        self.check_btn.clicked.connect(self.level)
 
     def getData(self):
         # Connect to SQLite and fill GUI table with data
@@ -52,7 +53,7 @@ class Main(QMainWindow, FORM_CLASS):
         parts_nbr = ''' SELECT COUNT (DISTINCT PartName) FROM parts_table '''
         ref_nbr = ''' SELECT COUNT (DISTINCT Reference) FROM parts_table '''
 
-        result_parts_nbr = cursor2.execute(parts_nbr)
+        result_parts_nbr = cursor2.execute(parts_nbr,)
         result_ref_nbr = cursor3.execute(ref_nbr,)
 
         self.lbl_parts_nbr.setText(str(result_parts_nbr.fetchone()[0]))
@@ -94,6 +95,23 @@ class Main(QMainWindow, FORM_CLASS):
             self.table.insertRow(row_number)
             for column_number, data in enumerate(row_data):
                 self.table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+
+    def level(self):
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect('parts.db')
+        cursor = db.cursor()
+
+        query = ''' SELECT Reference, PartName, Count FROM parts_table order by Count asc LIMIT 3'''
+
+        result = cursor.execute(query,)
+
+        self.table2.setRowCount(0)
+
+        for row_number, row_data in enumerate(result):
+            self.table2.insertRow(row_number)
+            for column_number, data in enumerate(row_data):
+                self.table2.setItem(row_number, column_number, QTableWidgetItem(str(data)))
+
 
 
         
