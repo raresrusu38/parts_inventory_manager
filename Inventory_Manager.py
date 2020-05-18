@@ -42,7 +42,8 @@ class Main(QMainWindow, FORM_CLASS):
 
     def getData(self):
         # Connect to SQLite and fill GUI table with data
-        db = sqlite3.connect('parts.db')
+        # db = sqlite3.connect('parts.db')
+        db = sqlite3.connect(resource_path('parts.db'))
         cursor = db.cursor()
 
         query = ''' SELECT * FROM parts_table'''
