@@ -20,6 +20,11 @@ FORM_CLASS,_ = loadUiType(resource_path("main.ui"))
 
 import sqlite3
 
+# Connect to SQLite and fill GUI table with data
+db = sqlite3.connect(resource_path('parts.db'))
+cursor = db.cursor()
+
+
 class Main(QMainWindow, FORM_CLASS):
     def __init__(self, parent=None):
         super(Main, self).__init__(parent)
@@ -41,10 +46,7 @@ class Main(QMainWindow, FORM_CLASS):
         
 
     def getData(self):
-        # Connect to SQLite and fill GUI table with data
         # db = sqlite3.connect('parts.db')
-        db = sqlite3.connect(resource_path('parts.db'))
-        cursor = db.cursor()
 
         query = ''' SELECT * FROM parts_table'''
 
@@ -90,10 +92,6 @@ class Main(QMainWindow, FORM_CLASS):
         self.lbl_max_hole_2.setText(str(r2[1]))
 
     def search(self):
-        # Connect to SQLite and fill GUI table with data
-        db = sqlite3.connect('parts.db')
-        cursor = db.cursor()
-
         nbr = int(self.count_filter_txt.text())
 
         query = ''' SELECT * FROM parts_table WHERE count < ?'''
@@ -108,10 +106,6 @@ class Main(QMainWindow, FORM_CLASS):
                 self.table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
 
     def level(self):
-        # Connect to SQLite and fill GUI table with data
-        db = sqlite3.connect('parts.db')
-        cursor = db.cursor()
-
         query = ''' SELECT Reference, PartName, Count FROM parts_table order by Count asc LIMIT 3'''
 
         result = cursor.execute(query,)
@@ -125,9 +119,6 @@ class Main(QMainWindow, FORM_CLASS):
 
     
     def navigate(self):
-        db = sqlite3.connect('parts.db')
-        cursor = db.cursor()
-
         query = ''' SELECT * FROM  parts_table '''
 
         result = cursor.execute(query,)
@@ -145,9 +136,6 @@ class Main(QMainWindow, FORM_CLASS):
         self.count.setValue(val[8])
 
     def update(self):
-        db = sqlite3.connect('parts.db')
-        cursor = db.cursor()
-
         id_ = int(self.id.text())
         reference_ = self.reference.text()
         part_name_ = self.part_name.text()
@@ -171,9 +159,6 @@ class Main(QMainWindow, FORM_CLASS):
 
     
     def delete(self):
-        db = sqlite3.connect('parts.db')
-        cursor = db.cursor()
-
         d = self.id.text()
 
         query = ''' DELETE FROM parts_table WHERE ID = ? '''
@@ -182,7 +167,6 @@ class Main(QMainWindow, FORM_CLASS):
         db.commit()
 
     def add(self):
-        db = sqlite3.connect('parts.db')
         cursor = db.cursor()
 
         reference_ = self.reference.text()
