@@ -6,6 +6,8 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 
+from styles import classic, dark_orange, dark_blue
+
 import sys, os
 from os import path
 
@@ -20,10 +22,7 @@ FORM_CLASS,_ = loadUiType(resource_path("main.ui"))
 
 import sqlite3
 
-# Connect to SQLite and fill GUI table with data
-db = sqlite3.connect(resource_path('parts.db'))
-cursor = db.cursor()
-
+app = QApplication(sys.argv)
 
 class Main(QMainWindow, FORM_CLASS):
     def __init__(self, parent=None):
@@ -33,8 +32,7 @@ class Main(QMainWindow, FORM_CLASS):
         self.setFixedSize(self.size())
         self.setupUi(self)
         self.Handle_Buttons()
-        self.navigate()
-
+        self.navigate()  
 
     def Handle_Buttons(self):
         self.refresh_btn.clicked.connect(self.getData)
@@ -43,10 +41,14 @@ class Main(QMainWindow, FORM_CLASS):
         self.update_btn.clicked.connect(self.update)
         self.delete_btn.clicked.connect(self.delete)
         self.add_btn.clicked.connect(self.add)
-        
+        self.theme1_btn.clicked.connect(self.change_theme_1)
+        self.theme2_btn.clicked.connect(self.change_theme_2)
+        self.theme3_btn.clicked.connect(self.change_theme_3)
 
     def getData(self):
-        # db = sqlite3.connect('parts.db')
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
 
         query = ''' SELECT * FROM parts_table'''
 
@@ -91,8 +93,13 @@ class Main(QMainWindow, FORM_CLASS):
         self.lbl_min_hole_4.setText(str(r1[1]))
         self.lbl_max_hole_2.setText(str(r2[1]))
 
+
     def search(self):
         nbr = int(self.count_filter_txt.text())
+
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
 
         query = ''' SELECT * FROM parts_table WHERE count < ?'''
 
@@ -105,7 +112,12 @@ class Main(QMainWindow, FORM_CLASS):
             for column_number, data in enumerate(row_data):
                 self.table.setItem(row_number, column_number, QTableWidgetItem(str(data)))
 
+
     def level(self):
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
         query = ''' SELECT Reference, PartName, Count FROM parts_table order by Count asc LIMIT 3'''
 
         result = cursor.execute(query,)
@@ -119,6 +131,10 @@ class Main(QMainWindow, FORM_CLASS):
 
     
     def navigate(self):
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
         query = ''' SELECT * FROM  parts_table '''
 
         result = cursor.execute(query,)
@@ -135,7 +151,12 @@ class Main(QMainWindow, FORM_CLASS):
         self.max_diameter.setText(str(val[7]))
         self.count.setValue(val[8])
 
+
     def update(self):
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
         id_ = int(self.id.text())
         reference_ = self.reference.text()
         part_name_ = self.part_name.text()
@@ -159,6 +180,10 @@ class Main(QMainWindow, FORM_CLASS):
 
     
     def delete(self):
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
         d = self.id.text()
 
         query = ''' DELETE FROM parts_table WHERE ID = ? '''
@@ -166,7 +191,10 @@ class Main(QMainWindow, FORM_CLASS):
         cursor.execute(query, d)
         db.commit()
 
+
     def add(self):
+        # Connect to SQLite and fill GUI table with data
+        db = sqlite3.connect(resource_path('parts.db'))
         cursor = db.cursor()
 
         reference_ = self.reference.text()
@@ -188,6 +216,16 @@ class Main(QMainWindow, FORM_CLASS):
         db.commit()
 
 
+    def change_theme_1(self):
+        app.setStyleSheet(classic.mainWindowStyle())
+
+
+    def change_theme_2(self):
+        app.setStyleSheet(dark_orange.mainWindowStyle())
+
+
+    def change_theme_3(self):
+        app.setStyleSheet(dark_blue.mainWindowStyle())
 
     
 def main():

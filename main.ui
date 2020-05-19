@@ -15,10 +15,10 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../icons/icon.png</normaloff>../../../../../../icons/icon.png</iconset>
+    <normaloff>icons/icon.png</normaloff>icons/icon.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
+   <string notr="true">Widget {
     font-size: 11px;
 }
 
@@ -810,9 +810,7 @@ color: rgb(243, 150, 255);</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 75 22pt &quot;Century Gothic&quot;;
-color: rgb(106, 253, 255);
-background-color: rgb(147, 147, 147);</string>
+     <string notr="true">font: 75 22pt &quot;Century Gothic&quot;;</string>
     </property>
     <property name="text">
      <string>Parts Inventory Manager</string>
@@ -840,20 +838,68 @@ background-color: rgb(147, 147, 147);</string>
    <widget class="QLabel" name="image">
     <property name="geometry">
      <rect>
-      <x>1090</x>
-      <y>10</y>
-      <width>141</width>
-      <height>101</height>
+      <x>370</x>
+      <y>0</y>
+      <width>91</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../../../../../icons/icon-spare-parts.png</pixmap>
+     <pixmap>icons/icon-spare-parts.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="theme2_btn">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>610</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Century Gothic&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Theme 2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="theme1_btn">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>610</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Century Gothic&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Theme 1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="theme3_btn">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>610</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 16pt &quot;Century Gothic&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Theme 3</string>
     </property>
    </widget>
   </widget>
@@ -863,7 +909,7 @@ background-color: rgb(147, 147, 147);</string>
      <x>0</x>
      <y>0</y>
      <width>1265</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
