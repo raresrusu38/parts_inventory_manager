@@ -22,6 +22,9 @@ FORM_CLASS,_ = loadUiType(resource_path("main.ui"))
 
 import sqlite3
 
+x = 0
+idx = 2
+
 app = QApplication(sys.argv)
 
 class Main(QMainWindow, FORM_CLASS):
@@ -32,7 +35,7 @@ class Main(QMainWindow, FORM_CLASS):
         self.setFixedSize(self.size())
         self.setupUi(self)
         self.Handle_Buttons()
-        self.navigate()  
+        # self.navigate()  
 
     def Handle_Buttons(self):
         self.refresh_btn.clicked.connect(self.getData)
@@ -44,6 +47,10 @@ class Main(QMainWindow, FORM_CLASS):
         self.theme1_btn.clicked.connect(self.change_theme_1)
         self.theme2_btn.clicked.connect(self.change_theme_2)
         self.theme3_btn.clicked.connect(self.change_theme_3)
+        self.first_btn.clicked.connect(self.FIRST)
+        self.previous_btn.clicked.connect(self.PREVIOUS)
+        self.next_btn.clicked.connect(self.NEXT)
+        self.last_btn.clicked.connect(self.LAST)
 
     def getData(self):
         # Connect to SQLite and fill GUI table with data
@@ -93,6 +100,9 @@ class Main(QMainWindow, FORM_CLASS):
         self.lbl_min_hole_4.setText(str(r1[1]))
         self.lbl_max_hole_2.setText(str(r2[1]))
 
+        self.FIRST()
+        self.navigate()
+
 
     def search(self):
         nbr = int(self.count_filter_txt.text())
@@ -131,13 +141,14 @@ class Main(QMainWindow, FORM_CLASS):
 
     
     def navigate(self):
+        global idx
         # Connect to SQLite and fill GUI table with data
         db = sqlite3.connect(resource_path('parts.db'))
         cursor = db.cursor()
 
-        query = ''' SELECT * FROM  parts_table '''
+        query = ''' SELECT * FROM  parts_table WHERE ID = ?'''
 
-        result = cursor.execute(query,)
+        result = cursor.execute(query,[idx])
 
         val = result.fetchone()
 
@@ -226,6 +237,87 @@ class Main(QMainWindow, FORM_CLASS):
 
     def change_theme_3(self):
         app.setStyleSheet(dark_blue.mainWindowStyle())
+
+    
+    def FIRST(self):
+        global x
+        global idx
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
+        query = ''' SELECT ID FROM parts_table'''
+
+        result = cursor.execute(query)
+        val = result.fetchall()
+        x = 0
+        if x > -1:
+            idx = val[x][0]
+            self.navigate()
+        else:
+            x = 0 
+            print("First element in database")
+
+
+    def PREVIOUS(self):
+        global x
+        global idx
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
+        query = ''' SELECT ID FROM parts_table'''
+
+        result = cursor.execute(query)
+        val = result.fetchall()
+
+        x = x - 1
+        if x > -1:
+            idx = val[x][0]
+            self.navigate()
+        else:
+            x = 0 
+            print("Previous element in database")
+
+
+    def NEXT(self):
+        global x
+        global idx
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
+        query = ''' SELECT ID FROM parts_table'''
+
+        result = cursor.execute(query)
+        val = result.fetchall()
+        tot = len(val)
+
+        x = x + 1
+        if x < tot:
+            idx = val[x][0]
+            self.navigate()
+        else:
+            x = tot - 1
+            print("Next element in database")
+
+
+    def LAST(self):
+        global x
+        global idx
+        db = sqlite3.connect(resource_path('parts.db'))
+        cursor = db.cursor()
+
+        query = ''' SELECT ID FROM parts_table'''
+
+        result = cursor.execute(query)
+        val = result.fetchall()
+        tot = len(val)
+
+        x = tot - 1
+        if x < tot:
+            idx = val[x][0]
+            self.navigate()
+        else:
+            x = tot - 1
+            print("Last element in database")
 
     
 def main():
